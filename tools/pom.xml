@@ -19,9 +19,10 @@
     <module>gendarme-runner</module>
     <module>gallio-runner</module>
     <module>ndeps-runner</module>
-  <!--  
-    <module>dotnet-tools-commons</module>
-  -->
+      <module>vstest-runner</module>
+      <!--
+        <module>dotnet-tools-commons</module>
+      -->
   </modules>
 
   <dependencies>
