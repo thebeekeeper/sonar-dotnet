@@ -1,5 +1,5 @@
 /*
- * Sonar .NET Plugin :: VsTest
+ * .NET Tools :: VsTest Runner
  * Copyright (C) 2010 Jose Chillan, Alexandre Victoor and SonarSource
  * dev@sonar.codehaus.org
  *
@@ -17,28 +17,40 @@
  * License along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
  */
-package com.savo.sonar.plugins.csharp.vstest;
+package com.savo.tools.vstest;
 
-import org.sonar.api.Extension;
-import org.sonar.api.SonarPlugin;
+import org.apache.commons.io.FileUtils;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.io.File;
+import java.util.Collection;
 
 /**
  * Created with IntelliJ IDEA.
  * User: ngamroth
  * Date: 5/30/13
- * Time: 9:20 AM
+ * Time: 3:07 PM
  * To change this template use File | Settings | File Templates.
  */
-public class VsTestPlugin extends SonarPlugin {
-
-    public List<Class<? extends Extension>> getExtensions() {
-        List<Class<? extends Extension>> extensions = new ArrayList<Class<? extends Extension>>();
-
-        extensions.add(TestSensor.class);
-
-        return extensions;
+public class FileUtil {
+    public static File[] findFiles(String path, String extension, String contains){
+        File baseDir = new File(path);
+        if(!baseDir.isDirectory())
+        {
+            return new File[0];
+        }
+        String[] extensions = new String[] { extension };
+        Collection<File> files = FileUtils.listFiles(baseDir, extensions, true);
+        files.toArray(new File[files.toArray().length]);
+        File[] rval = new File[files.toArray().length];
+        int i = 0;
+        for (File f : files)
+        {
+            if(f.getName().contains(contains))
+            {
+                rval[i] = f;
+                i++;
+            }
+        }
+        return rval;
     }
 }

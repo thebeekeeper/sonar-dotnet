@@ -76,9 +76,9 @@ public class VsTestArguments {
             args.add("/EnableCodeCoverage");
         if(inIsolation)
             args.add("/InIsolation");
-        if(!logger.isEmpty())
+        if(logger != null && logger.length() > 0)
             args.add("/Logger:" + logger);
-        if(!settings.isEmpty())
+        if(settings != null && settings.length() > 0)
             args.add("/Settings:" + settings);
         for(int i = 0 ; i < testAssemblies.length ; i++)
             args.add(testAssemblies[i]);

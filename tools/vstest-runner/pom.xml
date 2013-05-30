@@ -10,7 +10,6 @@
     <modelVersion>4.0.0</modelVersion>
 
     <name>.NET Tools :: VsTest Runner</name>
-    <groupId>org.codehaus.sonar-plugins.dotnet.tools</groupId>
     <artifactId>vstest-runner</artifactId>
 
     <dependencies>

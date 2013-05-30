@@ -19,24 +19,23 @@
  */
 package com.savo.tools.vstest;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.sonar.api.utils.command.CommandExecutor;
+import org.junit.Assert;
+import org.junit.Test;
 
-/*
-    Runs tests using vstest.console
+import java.io.File;
+
+/**
+ * Created with IntelliJ IDEA.
+ * User: ngamroth
+ * Date: 5/30/13
+ * Time: 3:15 PM
+ * To change this template use File | Settings | File Templates.
  */
-public class VsTestRunner {
-    private static final Logger LOG = LoggerFactory.getLogger(VsTestRunner.class);
-
-    public TestResultFiles execute(VsTestArguments arguments) {
-        VsTestCommandBuilder builder = VsTestCommandBuilder.create(arguments);
-        StdOutStreamConsumer stdOutConsumer = new StdOutStreamConsumer();
-        StdOutStreamConsumer stdErrConsumer = new StdOutStreamConsumer();
-        CommandExecutor.create().execute(builder.toCommand(), stdOutConsumer, stdErrConsumer, 60000);
-        TestResultFiles results = new TestResultFiles();
-        results.setCoverageFile(stdOutConsumer.getAttachment());
-        results.setResultsFile(stdOutConsumer.getResultsFile());
-        return results;
+public class FileUtilTests {
+    @Test
+    public void canFindUnitTestAssemblies() {
+        String path = "C:\\temp\\SonarSample";
+        File[] files = FileUtil.findFiles(path, "dll", "UnitTest");
+        Assert.assertTrue(files.length > 0);
     }
 }

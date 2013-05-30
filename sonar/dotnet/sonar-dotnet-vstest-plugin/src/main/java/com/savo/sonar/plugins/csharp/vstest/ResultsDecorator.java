@@ -19,26 +19,23 @@
  */
 package com.savo.sonar.plugins.csharp.vstest;
 
-import org.sonar.api.Extension;
-import org.sonar.api.SonarPlugin;
-
-import java.util.ArrayList;
-import java.util.List;
+import org.sonar.api.batch.Decorator;
+import org.sonar.api.batch.DecoratorContext;
+import org.sonar.api.resources.Project;
+import org.sonar.api.resources.Resource;
 
 /**
  * Created with IntelliJ IDEA.
  * User: ngamroth
  * Date: 5/30/13
- * Time: 9:20 AM
+ * Time: 3:43 PM
  * To change this template use File | Settings | File Templates.
  */
-public class VsTestPlugin extends SonarPlugin {
+public class ResultsDecorator implements Decorator {
+    public void decorate(Resource resource, DecoratorContext decoratorContext) {
+    }
 
-    public List<Class<? extends Extension>> getExtensions() {
-        List<Class<? extends Extension>> extensions = new ArrayList<Class<? extends Extension>>();
-
-        extensions.add(TestSensor.class);
-
-        return extensions;
+    public boolean shouldExecuteOnProject(Project project) {
+        return false;  //To change body of implemented methods use File | Settings | File Templates.
     }
 }

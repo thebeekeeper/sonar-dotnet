@@ -19,13 +19,18 @@
  */
 package com.savo.sonar.plugins.csharp.vstest;
 
+import com.savo.tools.vstest.FileUtil;
+import com.savo.tools.vstest.TestResultFiles;
 import com.savo.tools.vstest.VsTestArguments;
 import com.savo.tools.vstest.VsTestRunner;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.sonar.api.batch.Sensor;
 import org.sonar.api.batch.SensorContext;
+import org.sonar.api.measures.CoreMetrics;
 import org.sonar.api.resources.Project;
+
+import java.io.File;
 
 /**
  * Created with IntelliJ IDEA.
@@ -36,19 +41,33 @@ import org.sonar.api.resources.Project;
  */
 public class TestSensor implements Sensor {
 
-    public TestSensor(VsTestRunner runner) {
-        testRunner = runner;
+    public TestSensor() {
     }
 
     public void analyse(Project project, SensorContext sensorContext) {
         LOG.info("Building test execution for " + project.getName());
+        VsTestRunner testRunner = new VsTestRunner();
         VsTestArguments args = new VsTestArguments();
         args.setCodeCoverage(true);
         args.setInIsolation(true);
         args.setLogger("trx");
-        args.setSettingsFile("coverage.runsettings");
-        args.setTestAssemblies(new String[] { "*.UnitTest.dll" });
-        testRunner.execute(args);
+        //args.setSettingsFile("coverage.runsettings");
+        File[] testAssemblies = FileUtil.findFiles(project.getFileSystem().getBasedir().getAbsolutePath(), "dll", "UnitTest");
+        LOG.info("found " + testAssemblies.length + " test assemblies");
+        String[] fileNames = new String[testAssemblies.length];
+        int i = 0;
+        for(File f : testAssemblies)
+        {
+            LOG.info("Found test assembly: " + f.getAbsolutePath());
+            fileNames[i] = f.getAbsolutePath();
+            i++;
+        }
+        args.setTestAssemblies(fileNames);
+        TestResultFiles results = testRunner.execute(args);
+
+        int[] testResults = ResultsParser.parseTrx(new File(results.getResultsFile()));
+        sensorContext.saveMeasure(CoreMetrics.TESTS, (double)testResults[0]);
+        sensorContext.saveMeasure(CoreMetrics.TEST_FAILURES, (double)testResults[2]);
     }
 
     public boolean shouldExecuteOnProject(Project project) {
@@ -56,6 +75,5 @@ public class TestSensor implements Sensor {
         return project.getName().endsWith(".UnitTest");
     }
 
-    private VsTestRunner testRunner;
     private static final Logger LOG = LoggerFactory.getLogger(VsTestRunner.class);
 }

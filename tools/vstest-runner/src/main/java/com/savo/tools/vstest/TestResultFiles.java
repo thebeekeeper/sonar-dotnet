@@ -19,24 +19,30 @@
  */
 package com.savo.tools.vstest;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.sonar.api.utils.command.CommandExecutor;
-
-/*
-    Runs tests using vstest.console
+/**
+ * Created with IntelliJ IDEA.
+ * User: ngamroth
+ * Date: 5/30/13
+ * Time: 1:42 PM
+ * To change this template use File | Settings | File Templates.
  */
-public class VsTestRunner {
-    private static final Logger LOG = LoggerFactory.getLogger(VsTestRunner.class);
-
-    public TestResultFiles execute(VsTestArguments arguments) {
-        VsTestCommandBuilder builder = VsTestCommandBuilder.create(arguments);
-        StdOutStreamConsumer stdOutConsumer = new StdOutStreamConsumer();
-        StdOutStreamConsumer stdErrConsumer = new StdOutStreamConsumer();
-        CommandExecutor.create().execute(builder.toCommand(), stdOutConsumer, stdErrConsumer, 60000);
-        TestResultFiles results = new TestResultFiles();
-        results.setCoverageFile(stdOutConsumer.getAttachment());
-        results.setResultsFile(stdOutConsumer.getResultsFile());
-        return results;
+public class TestResultFiles {
+    public void setResultsFile(String resultsFile) {
+        this.resultsFile = resultsFile;
     }
+
+    public String getResultsFile() {
+        return this.resultsFile;
+    }
+
+    public void setCoverageFile(String coverageFile) {
+        this.coverageFile = coverageFile;
+    }
+
+    public String getCoverageFile() {
+        return this.coverageFile;
+    }
+
+    private String resultsFile;
+    private String coverageFile;
 }
