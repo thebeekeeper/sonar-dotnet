@@ -19,18 +19,18 @@
  */
 package com.savo.tools.vstest;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.sonar.api.utils.command.CommandExecutor;
+import org.junit.Test;
 
-/*
-    Runs tests using vstest.console
+/**
+ * Created with IntelliJ IDEA.
+ * User: ngamroth
+ * Date: 5/29/13
+ * Time: 3:53 PM
+ * To change this template use File | Settings | File Templates.
  */
-public class VsTestRunner {
-    private static final Logger LOG = LoggerFactory.getLogger(VsTestRunner.class);
+public class CommandBuilderTests {
+    @Test
+    public void commandIsBuildWithoutSettings() {
 
-    public void execute(VsTestArguments arguments) {
-        VsTestCommandBuilder builder = VsTestCommandBuilder.create(arguments);
-        CommandExecutor.create().execute(builder.toCommand(), 60000);
     }
 }

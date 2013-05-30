@@ -1,4 +1,26 @@
+/*
+ * .NET Tools :: VsTest Runner
+ * Copyright (C) 2010 Jose Chillan, Alexandre Victoor and SonarSource
+ * dev@sonar.codehaus.org
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation; either
+ * version 3 of the License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
+ */
 package com.savo.tools.vstest;
+
+import java.util.LinkedList;
+import java.util.List;
 
 /**
  * Created with IntelliJ IDEA.
@@ -48,20 +70,19 @@ public class VsTestArguments {
         return this.settings;
     }
 
-    public String toString() {
-        StringBuilder sb = new StringBuilder();
+    public List<String> toArguments() {
+        List<String> args = new LinkedList<String>();
         if(codeCoverage)
-            sb.append("/EnableCodeCoverage ");
+            args.add("/EnableCodeCoverage");
         if(inIsolation)
-            sb.append("/InIsolation ");
+            args.add("/InIsolation");
         if(!logger.isEmpty())
-            sb.append("/Logger:" + logger + " ");
+            args.add("/Logger:" + logger);
         if(!settings.isEmpty())
-            sb.append("/Settings:" + settings + " ");
+            args.add("/Settings:" + settings);
         for(int i = 0 ; i < testAssemblies.length ; i++)
-            sb.append(testAssemblies[i] + " ");
-
-        return sb.toString();
+            args.add(testAssemblies[i]);
+        return args;
     }
 
     private boolean codeCoverage;

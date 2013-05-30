@@ -1,5 +1,5 @@
 /*
- * vstest-runner
+ * .NET Tools :: VsTest Runner
  * Copyright (C) 2010 Jose Chillan, Alexandre Victoor and SonarSource
  * dev@sonar.codehaus.org
  *
@@ -37,8 +37,21 @@ public class VsTestCommandBuilder {
     private VsTestCommandBuilder() {
     }
 
+    public static VsTestCommandBuilder create(VsTestArguments arguments) {
+        VsTestCommandBuilder builder = new VsTestCommandBuilder();
+        builder.arguments = arguments;
+        return builder;
+    }
+
+    public VsTestArguments getArguments() {
+        return this.arguments;
+    }
+
     public Command toCommand() {
         Command c = Command.create(vstestCommand);
+        c.addArguments(this.arguments.toArguments());
         return c;
     }
+
+    private VsTestArguments arguments;
 }

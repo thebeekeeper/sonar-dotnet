@@ -1,5 +1,5 @@
 /*
- * .NET Tools :: VsTest Runner
+ * Sonar .NET Plugin :: VsTest
  * Copyright (C) 2010 Jose Chillan, Alexandre Victoor and SonarSource
  * dev@sonar.codehaus.org
  *
@@ -17,20 +17,28 @@
  * License along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
  */
-package com.savo.tools.vstest;
+package com.savo.sonar.plugins.csharp.vstest;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.sonar.api.utils.command.CommandExecutor;
+import org.sonar.api.Extension;
+import org.sonar.api.SonarPlugin;
 
-/*
-    Runs tests using vstest.console
+import java.util.ArrayList;
+import java.util.List;
+
+/**
+ * Created with IntelliJ IDEA.
+ * User: ngamroth
+ * Date: 5/30/13
+ * Time: 9:20 AM
+ * To change this template use File | Settings | File Templates.
  */
-public class VsTestRunner {
-    private static final Logger LOG = LoggerFactory.getLogger(VsTestRunner.class);
+public class VsTestPlugin extends SonarPlugin{
 
-    public void execute(VsTestArguments arguments) {
-        VsTestCommandBuilder builder = VsTestCommandBuilder.create(arguments);
-        CommandExecutor.create().execute(builder.toCommand(), 60000);
+    public List<Class<? extends Extension>> getExtensions() {
+        List<Class<? extends Extension>> extensions = new ArrayList<Class<? extends Extension>>();
+
+        extensions.add(TestSensor.class);
+
+        return extensions;
     }
 }
