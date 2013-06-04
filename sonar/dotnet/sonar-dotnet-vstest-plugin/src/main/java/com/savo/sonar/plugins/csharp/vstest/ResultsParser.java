@@ -49,6 +49,7 @@ public class ResultsParser {
     public static int[] parseTrx(File trxFile) {
         int[] rval = new int[3];
         try {
+            LOG.info("Parsing trx file: " + trxFile);
             DocumentBuilderFactory docBuilderFactory = DocumentBuilderFactory.newInstance();
             DocumentBuilder docBuilder = docBuilderFactory.newDocumentBuilder();
             LOG.info("Parsing TRX file: " + trxFile.getName());

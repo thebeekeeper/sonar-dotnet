@@ -69,7 +69,9 @@ public class TestSensor implements Sensor {
         args.setTestAssemblies(fileNames);
         TestResultFiles results = testRunner.execute(args);
 
-        int[] testResults = ResultsParser.parseTrx(new File(results.getResultsFile()));
+        String resultsFile = results.getResultsFile();
+        LOG.info("resultsFile: " + resultsFile);
+        int[] testResults = ResultsParser.parseTrx(new File(resultsFile));
         sensorContext.saveMeasure(CoreMetrics.TESTS, (double)testResults[0]);
         sensorContext.saveMeasure(CoreMetrics.TEST_FAILURES, (double)testResults[2]);
     }

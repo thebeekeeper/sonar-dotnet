@@ -82,6 +82,8 @@ public class VsTestArguments {
             args.add("/Settings:" + settings);
         for(int i = 0 ; i < testAssemblies.length ; i++)
             args.add(testAssemblies[i]);
+
+        args.add("/UseVsixExtensions:true");
         return args;
     }
 

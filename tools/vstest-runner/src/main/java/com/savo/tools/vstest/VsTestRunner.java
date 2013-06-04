@@ -30,6 +30,7 @@ public class VsTestRunner {
     private static final Logger LOG = LoggerFactory.getLogger(VsTestRunner.class);
 
     public TestResultFiles execute(VsTestArguments arguments) {
+        LOG.info("Running tests with VsTest");
         VsTestCommandBuilder builder = VsTestCommandBuilder.create(arguments);
         StdOutStreamConsumer stdOutConsumer = new StdOutStreamConsumer();
         StdOutStreamConsumer stdErrConsumer = new StdOutStreamConsumer();

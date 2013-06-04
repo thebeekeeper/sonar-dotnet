@@ -32,24 +32,25 @@ import org.sonar.api.utils.command.StreamConsumer;
  */
 public class StdOutStreamConsumer implements StreamConsumer {
     public void consumeLine(String s) {
+        LOG.info("VsTest: " + s);
         if(s.startsWith("Results File"))
         {
-            resultsFile = s.substring(s.indexOf(":") + 1);
+            resultsFile = s.substring(s.indexOf(":") + 1).trim();
             LOG.info("Detected test results file: " + resultsFile);
         }
         if(s.endsWith(".coverage"))
         {
-            attachmentFile = s;
+            attachmentFile = s.trim();
             LOG.info("Detected test coverage file: " + attachmentFile);
         }
     }
 
     public String getResultsFile() {
-        return "";
+        return resultsFile;
     }
 
     public String getAttachment() {
-        return "";
+        return attachmentFile;
     }
 
     private String resultsFile;
