@@ -70,10 +70,18 @@ public class TestSensor implements Sensor {
         TestResultFiles results = testRunner.execute(args);
 
         String resultsFile = results.getResultsFile();
-        LOG.info("resultsFile: " + resultsFile);
-        int[] testResults = ResultsParser.parseTrx(new File(resultsFile));
-        sensorContext.saveMeasure(CoreMetrics.TESTS, (double)testResults[0]);
-        sensorContext.saveMeasure(CoreMetrics.TEST_FAILURES, (double)testResults[2]);
+        if((new File(resultsFile)).exists())
+        {
+            LOG.info("resultsFile: " + resultsFile);
+            int[] testResults = ResultsParser.parseTrx(new File(resultsFile));
+            sensorContext.saveMeasure(CoreMetrics.TESTS, (double)testResults[0]);
+            sensorContext.saveMeasure(CoreMetrics.TEST_FAILURES, (double)testResults[2]);
+        }
+        else
+        {
+            sensorContext.saveMeasure(CoreMetrics.TESTS, 0.0);
+            sensorContext.saveMeasure(CoreMetrics.TEST_FAILURES, 0.0);
+        }
     }
 
     public boolean shouldExecuteOnProject(Project project) {
