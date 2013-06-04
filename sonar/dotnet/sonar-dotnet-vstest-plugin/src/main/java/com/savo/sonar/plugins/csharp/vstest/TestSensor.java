@@ -58,9 +58,13 @@ public class TestSensor implements Sensor {
         int i = 0;
         for(File f : testAssemblies)
         {
-            LOG.info("Found test assembly: " + f.getAbsolutePath());
-            fileNames[i] = f.getAbsolutePath();
-            i++;
+            if(f != null)
+            {
+                LOG.info("Found test assembly: " + f.getAbsolutePath());
+                fileNames[i] = f.getAbsolutePath();
+                LOG.info("Got here");
+                i++;
+            }
         }
         args.setTestAssemblies(fileNames);
         TestResultFiles results = testRunner.execute(args);

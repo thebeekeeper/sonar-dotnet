@@ -34,8 +34,10 @@ import java.io.File;
 public class FileUtilTests {
     @Test
     public void canFindUnitTestAssemblies() {
-        String path = "C:\\temp\\SonarSample";
+        //String path = "C:\\temp\\SonarSample";
+        String path = "E:\\workspace\\Laurus\\Laurus.TaskBoss";
         File[] files = FileUtil.findFiles(path, "dll", "UnitTest");
-        Assert.assertTrue(files.length > 0);
+        Assert.assertEquals(2, files.length);
+        //Assert.assertTrue(files.length > 0);
     }
 }

@@ -22,7 +22,9 @@ package com.savo.tools.vstest;
 import org.apache.commons.io.FileUtils;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 /**
  * Created with IntelliJ IDEA.
@@ -40,17 +42,14 @@ public class FileUtil {
         }
         String[] extensions = new String[] { extension };
         Collection<File> files = FileUtils.listFiles(baseDir, extensions, true);
-        files.toArray(new File[files.toArray().length]);
-        File[] rval = new File[files.toArray().length];
-        int i = 0;
-        for (File f : files)
+        List<File> tempList = new ArrayList<File>();
+        for(File f : files)
         {
             if(f.getName().contains(contains))
             {
-                rval[i] = f;
-                i++;
+                tempList.add(f);
             }
         }
-        return rval;
+        return tempList.toArray(new File[tempList.size()]);
     }
 }
