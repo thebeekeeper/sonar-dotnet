@@ -43,6 +43,6 @@ public class TestResultFiles {
         return this.coverageFile;
     }
 
-    private String resultsFile;
-    private String coverageFile;
+    private String resultsFile = "";
+    private String coverageFile = "";
 }

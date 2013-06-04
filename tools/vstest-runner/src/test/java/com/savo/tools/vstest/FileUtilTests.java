@@ -40,4 +40,17 @@ public class FileUtilTests {
         Assert.assertEquals(2, files.length);
         //Assert.assertTrue(files.length > 0);
     }
+
+    @Test
+    public void fileWithNoNameDoesNotExist() {
+        File f = new File("");
+        Assert.assertFalse(f.exists());
+
+        /*
+            java can't figure out if files with null names are valid so it just throws
+            String s = null;
+            File f2 = new File(s);
+            Assert.assertFalse(f2.exists());
+        */
+    }
 }
