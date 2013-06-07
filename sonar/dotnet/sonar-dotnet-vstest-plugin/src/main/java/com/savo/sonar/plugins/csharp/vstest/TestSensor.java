@@ -19,10 +19,7 @@
  */
 package com.savo.sonar.plugins.csharp.vstest;
 
-import com.savo.tools.vstest.FileUtil;
-import com.savo.tools.vstest.TestResultFiles;
-import com.savo.tools.vstest.VsTestArguments;
-import com.savo.tools.vstest.VsTestRunner;
+import com.savo.tools.vstest.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.sonar.api.batch.Sensor;
@@ -51,8 +48,10 @@ public class TestSensor implements Sensor {
         args.setCodeCoverage(true);
         args.setInIsolation(true);
         args.setLogger("trx");
-        //args.setSettingsFile("coverage.runsettings");
-        File[] testAssemblies = FileUtil.findFiles(project.getFileSystem().getBasedir().getAbsolutePath(), "dll", "UnitTest");
+        String coverageSettings = project.getName() + ".runsettings";
+        LOG.info("Using coverage settings: " + coverageSettings);
+        args.setSettingsFile(coverageSettings);
+        File[] testAssemblies = FileUtil.findFiles(project.getFileSystem().getBasedir().getAbsolutePath() + "\\bin\\debug", "dll", "UnitTest");
         LOG.info("found " + testAssemblies.length + " test assemblies");
         String[] fileNames = new String[testAssemblies.length];
         int i = 0;
@@ -70,17 +69,42 @@ public class TestSensor implements Sensor {
         TestResultFiles results = testRunner.execute(args);
 
         String resultsFile = results.getResultsFile();
-        if((new File(resultsFile)).exists())
+        if(resultsFile != null)
         {
-            LOG.info("resultsFile: " + resultsFile);
-            int[] testResults = ResultsParser.parseTrx(new File(resultsFile));
-            sensorContext.saveMeasure(CoreMetrics.TESTS, (double)testResults[0]);
-            sensorContext.saveMeasure(CoreMetrics.TEST_FAILURES, (double)testResults[2]);
+            if((new File(resultsFile)).exists())
+            {
+                LOG.info("resultsFile: " + resultsFile);
+                int[] testResults = ResultsParser.parseTrx(new File(resultsFile));
+                sensorContext.saveMeasure(CoreMetrics.TESTS, (double)testResults[0]);
+                sensorContext.saveMeasure(CoreMetrics.TEST_FAILURES, (double)testResults[2]);
+            }
+            else
+            {
+                sensorContext.saveMeasure(CoreMetrics.TESTS, 0.0);
+                sensorContext.saveMeasure(CoreMetrics.TEST_FAILURES, 0.0);
+            }
         }
-        else
-        {
-            sensorContext.saveMeasure(CoreMetrics.TESTS, 0.0);
-            sensorContext.saveMeasure(CoreMetrics.TEST_FAILURES, 0.0);
+
+        String coverageFile = results.getCoverageFile();
+        if(coverageFile != null) {
+            if((new File(coverageFile).exists())) {
+                LOG.info("Parsing coverage file " + coverageFile);
+                CoverageFileParser parser = new CoverageFileParser();
+                CoverageData data = parser.parseCoverage(coverageFile);
+                LOG.info("Publishing coverage data: lines = " + data.getLines());
+                sensorContext.saveMeasure(CoreMetrics.LINES, (double)data.getLines());
+                sensorContext.saveMeasure(CoreMetrics.COVERAGE, (double)data.getCoverage());
+                sensorContext.saveMeasure(CoreMetrics.LINE_COVERAGE, (double)data.getCoverage());
+                sensorContext.saveMeasure(CoreMetrics.LINES_TO_COVER, (double)data.getLines());
+                sensorContext.saveMeasure(CoreMetrics.UNCOVERED_LINES, (double)data.getNotCovered());
+            }
+        }
+        else {
+            sensorContext.saveMeasure(CoreMetrics.LINES, 0.0);
+            sensorContext.saveMeasure(CoreMetrics.COVERAGE, 0.0);
+            sensorContext.saveMeasure(CoreMetrics.LINE_COVERAGE, 0.0);
+            sensorContext.saveMeasure(CoreMetrics.LINES_TO_COVER, 0.0);
+            sensorContext.saveMeasure(CoreMetrics.UNCOVERED_LINES, 0.0);
         }
     }
 

@@ -19,41 +19,28 @@
  */
 package com.savo.tools.vstest;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.sonar.api.utils.command.StreamConsumer;
+import org.sonar.api.utils.command.Command;
+import org.sonar.api.utils.command.CommandExecutor;
+
+import java.io.File;
 
 /**
  * Created with IntelliJ IDEA.
  * User: ngamroth
- * Date: 5/30/13
- * Time: 1:33 PM
+ * Date: 6/6/13
+ * Time: 3:06 PM
  * To change this template use File | Settings | File Templates.
  */
-public class StdOutStreamConsumer implements StreamConsumer {
-    public void consumeLine(String s) {
-        LOG.info("VsTest: " + s);
-        if(s.startsWith("Results File"))
-        {
-            resultsFile = s.substring(s.indexOf(":") + 1).trim();
-            LOG.info("Detected test results file: " + resultsFile);
-        }
-        if(s.endsWith(".coverage"))
-        {
-            attachmentFile = s.trim();
-            LOG.info("Detected test coverage file: " + attachmentFile);
-        }
+public class CoverageFileParser {
+    public CoverageData parseCoverage(String coverageFile) {
+        // TODO: fix this
+        Command command = Command.create("c:\\temp\\SimpleCoverage\\SimpleCoverage\\bin\\Debug\\SimpleCoverage.exe");
+        command.addArgument(coverageFile);
+        SimpleCoverageStreamReader streamConsumer = new SimpleCoverageStreamReader();
+        // don't really care what this one does
+        StdOutStreamConsumer stdErrStreamConsumer = new StdOutStreamConsumer();
+        CommandExecutor.create().execute(command, streamConsumer, stdErrStreamConsumer, 60000);
+        CoverageData results = new CoverageData(streamConsumer.getLines(), streamConsumer.getCovered(), streamConsumer.getNotCovered(), streamConsumer.getCoverage());
+        return results;
     }
-
-    public String getResultsFile() {
-        return resultsFile;
-    }
-
-    public String getAttachment() {
-        return attachmentFile;
-    }
-
-    private String resultsFile = "";
-    private String attachmentFile = "";
-    private static final Logger LOG = LoggerFactory.getLogger(StdOutStreamConsumer.class);
 }

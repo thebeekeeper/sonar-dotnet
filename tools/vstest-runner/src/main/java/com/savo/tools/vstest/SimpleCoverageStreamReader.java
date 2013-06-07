@@ -19,41 +19,49 @@
  */
 package com.savo.tools.vstest;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.sonar.api.utils.command.StreamConsumer;
 
 /**
  * Created with IntelliJ IDEA.
  * User: ngamroth
- * Date: 5/30/13
- * Time: 1:33 PM
+ * Date: 6/6/13
+ * Time: 3:46 PM
  * To change this template use File | Settings | File Templates.
  */
-public class StdOutStreamConsumer implements StreamConsumer {
+public class SimpleCoverageStreamReader implements StreamConsumer {
     public void consumeLine(String s) {
-        LOG.info("VsTest: " + s);
-        if(s.startsWith("Results File"))
-        {
-            resultsFile = s.substring(s.indexOf(":") + 1).trim();
-            LOG.info("Detected test results file: " + resultsFile);
+        if(s.startsWith("Lines")) {
+           lines = Integer.parseInt(s.substring(s.indexOf(' ') + 1));
         }
-        if(s.endsWith(".coverage"))
-        {
-            attachmentFile = s.trim();
-            LOG.info("Detected test coverage file: " + attachmentFile);
+        if(s.startsWith("Covered")) {
+            covered = Integer.parseInt(s.substring(s.indexOf(' ') + 1));
+        }
+        if(s.startsWith("NotCovered")) {
+            notCovered = Integer.parseInt(s.substring(s.indexOf(' ') + 1));
+        }
+        if(s.startsWith("Coverage")) {
+            coverage = Integer.parseInt(s.substring(s.indexOf(' ') + 1));
         }
     }
 
-    public String getResultsFile() {
-        return resultsFile;
+    public int getLines() {
+        return lines;
     }
 
-    public String getAttachment() {
-        return attachmentFile;
+    public int getCovered() {
+        return covered;
     }
 
-    private String resultsFile = "";
-    private String attachmentFile = "";
-    private static final Logger LOG = LoggerFactory.getLogger(StdOutStreamConsumer.class);
+    public int getNotCovered() {
+        return notCovered;
+    }
+
+    public int getCoverage() {
+        return coverage;
+    }
+
+    private int lines = 0;
+    private int covered = 0;
+    private int notCovered = 0;
+    private int coverage = 0;
 }

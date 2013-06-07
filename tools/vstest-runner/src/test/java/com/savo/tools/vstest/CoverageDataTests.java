@@ -19,41 +19,23 @@
  */
 package com.savo.tools.vstest;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.sonar.api.utils.command.StreamConsumer;
+import junit.framework.Assert;
+import org.junit.Test;
 
 /**
  * Created with IntelliJ IDEA.
  * User: ngamroth
- * Date: 5/30/13
- * Time: 1:33 PM
+ * Date: 6/6/13
+ * Time: 4:01 PM
  * To change this template use File | Settings | File Templates.
  */
-public class StdOutStreamConsumer implements StreamConsumer {
-    public void consumeLine(String s) {
-        LOG.info("VsTest: " + s);
-        if(s.startsWith("Results File"))
-        {
-            resultsFile = s.substring(s.indexOf(":") + 1).trim();
-            LOG.info("Detected test results file: " + resultsFile);
-        }
-        if(s.endsWith(".coverage"))
-        {
-            attachmentFile = s.trim();
-            LOG.info("Detected test coverage file: " + attachmentFile);
-        }
-    }
+public class CoverageDataTests {
+    @Test
+    public void knownTestDataGivesExpectedData() {
+        String file = "C:\\Workspaces\\Savo-Lifecycle\\Development\\TestResults\\a6567e42-2508-46e8-b527-57d741d425d2\\ngamroth_CORWS10348 2013-06-06 15_14_38.coverage";
+        CoverageFileParser parser = new CoverageFileParser();
+        CoverageData result = parser.parseCoverage(file);
+        Assert.assertEquals(898, result.getLines());
 
-    public String getResultsFile() {
-        return resultsFile;
     }
-
-    public String getAttachment() {
-        return attachmentFile;
-    }
-
-    private String resultsFile = "";
-    private String attachmentFile = "";
-    private static final Logger LOG = LoggerFactory.getLogger(StdOutStreamConsumer.class);
 }

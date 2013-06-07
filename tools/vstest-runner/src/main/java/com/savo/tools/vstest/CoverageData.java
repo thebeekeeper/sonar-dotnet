@@ -19,41 +19,38 @@
  */
 package com.savo.tools.vstest;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.sonar.api.utils.command.StreamConsumer;
-
 /**
  * Created with IntelliJ IDEA.
  * User: ngamroth
- * Date: 5/30/13
- * Time: 1:33 PM
+ * Date: 6/6/13
+ * Time: 3:49 PM
  * To change this template use File | Settings | File Templates.
  */
-public class StdOutStreamConsumer implements StreamConsumer {
-    public void consumeLine(String s) {
-        LOG.info("VsTest: " + s);
-        if(s.startsWith("Results File"))
-        {
-            resultsFile = s.substring(s.indexOf(":") + 1).trim();
-            LOG.info("Detected test results file: " + resultsFile);
-        }
-        if(s.endsWith(".coverage"))
-        {
-            attachmentFile = s.trim();
-            LOG.info("Detected test coverage file: " + attachmentFile);
-        }
+public class CoverageData {
+    public CoverageData(int lines, int covered, int notCovered, int coverage) {
+        this.lines = lines;
+        this.covered = covered;
+        this.notCovered = notCovered;
+        this.coverage = coverage;
+    }
+    public int getLines() {
+        return lines;
     }
 
-    public String getResultsFile() {
-        return resultsFile;
+    public int getCovered() {
+        return covered;
     }
 
-    public String getAttachment() {
-        return attachmentFile;
+    public int getNotCovered() {
+        return notCovered;
     }
 
-    private String resultsFile = "";
-    private String attachmentFile = "";
-    private static final Logger LOG = LoggerFactory.getLogger(StdOutStreamConsumer.class);
+    public int getCoverage() {
+        return coverage;
+    }
+
+    private int lines;
+    private int covered;
+    private int notCovered;
+    private int coverage;
 }
