@@ -20,7 +20,8 @@
     <module>dotnet/sonar-dotnet-gendarme-plugin</module>
     <!--<module>dotnet/sonar-dotnet-gallio-plugin</module>-->
     <module>dotnet/sonar-dotnet-ndeps-plugin</module>
-      <module>dotnet/sonar-dotnet-vstest-plugin</module>
+  <module>dotnet/sonar-dotnet-vstest-plugin</module>
+      <!--<module>savo-qualityscore-plugin</module>-->
 
     <!-- Core C# Plugin -->
     <module>csharp/sonar-csharp-plugin</module>

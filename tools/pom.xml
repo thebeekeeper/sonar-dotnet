@@ -20,6 +20,7 @@
     <module>gallio-runner</module>
     <module>ndeps-runner</module>
       <module>vstest-runner</module>
+      <module>stester-runner</module>
       <!--
         <module>dotnet-tools-commons</module>
       -->

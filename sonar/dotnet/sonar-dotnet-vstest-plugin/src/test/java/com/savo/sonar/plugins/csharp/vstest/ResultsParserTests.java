@@ -38,4 +38,19 @@ public class ResultsParserTests {
         int[] results = ResultsParser.parseTrx(new File(resultsFile));
         Assert.assertEquals(3, results.length);
     }
+
+    @Test
+    public void canParseNumberWithSpace() {
+        // wow cool java can't parse an int with a leading space cool
+        String withSpace = "28";
+        int twentyEight = Integer.parseInt(withSpace);
+        Assert.assertEquals(28, twentyEight);
+    }
+
+    @Test
+    public void canParseDouble() {
+        String coverageString = "0.38166666667";
+        double coverage = Double.parseDouble(coverageString) * 100.0;
+        Assert.assertEquals(38.166666667, coverage);
+    }
 }

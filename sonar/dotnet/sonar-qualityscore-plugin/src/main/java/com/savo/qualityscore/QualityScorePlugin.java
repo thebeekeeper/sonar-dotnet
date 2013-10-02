@@ -1,5 +1,5 @@
 /*
- * Sonar .NET Plugin :: VsTest
+ * Savo Quality Score Plugin
  * Copyright (C) 2010 Jose Chillan, Alexandre Victoor and SonarSource
  * dev@sonar.codehaus.org
  *
@@ -17,9 +17,9 @@
  * License along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
  */
-package com.savo.sonar.plugins.csharp.vstest;
+package com.savo.qualityscore;
 
-import com.savo.sonar.plugins.csharp.vstest.ui.IntegrationTestCoverageWidget;
+import com.savo.qualityscore.ui.QualityScoreWidget;
 import org.sonar.api.Extension;
 import org.sonar.api.SonarPlugin;
 
@@ -29,20 +29,16 @@ import java.util.List;
 /**
  * Created with IntelliJ IDEA.
  * User: ngamroth
- * Date: 5/30/13
- * Time: 9:20 AM
+ * Date: 6/11/13
+ * Time: 1:30 PM
  * To change this template use File | Settings | File Templates.
  */
-public class VsTestPlugin extends SonarPlugin {
-
+public class QualityScorePlugin extends SonarPlugin {
     public List<Class<? extends Extension>> getExtensions() {
         List<Class<? extends Extension>> extensions = new ArrayList<Class<? extends Extension>>();
-
-        extensions.add(IntegrationTestCoverageWidget.class);
-        extensions.add(IntegrationTestMetrics.class);
-        extensions.add(TestSensor.class);
-        extensions.add(IntegrationTestSensor.class);
-
+        extensions.add(ScoreDecorator.class);
+        extensions.add(QualityMetrics.class);
+        extensions.add(QualityScoreWidget.class);
         return extensions;
     }
 }

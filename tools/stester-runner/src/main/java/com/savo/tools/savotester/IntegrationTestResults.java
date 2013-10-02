@@ -1,5 +1,5 @@
 /*
- * Sonar .NET Plugin :: VsTest
+ * .NET Tools :: SavoTester Runner
  * Copyright (C) 2010 Jose Chillan, Alexandre Victoor and SonarSource
  * dev@sonar.codehaus.org
  *
@@ -17,32 +17,48 @@
  * License along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
  */
-package com.savo.sonar.plugins.csharp.vstest;
-
-import com.savo.sonar.plugins.csharp.vstest.ui.IntegrationTestCoverageWidget;
-import org.sonar.api.Extension;
-import org.sonar.api.SonarPlugin;
-
-import java.util.ArrayList;
-import java.util.List;
+package com.savo.tools.savotester;
 
 /**
- * Created with IntelliJ IDEA.
  * User: ngamroth
- * Date: 5/30/13
- * Time: 9:20 AM
- * To change this template use File | Settings | File Templates.
+ * Date: 7/25/13
+ * Time: 4:07 PM
  */
-public class VsTestPlugin extends SonarPlugin {
-
-    public List<Class<? extends Extension>> getExtensions() {
-        List<Class<? extends Extension>> extensions = new ArrayList<Class<? extends Extension>>();
-
-        extensions.add(IntegrationTestCoverageWidget.class);
-        extensions.add(IntegrationTestMetrics.class);
-        extensions.add(TestSensor.class);
-        extensions.add(IntegrationTestSensor.class);
-
-        return extensions;
+public class IntegrationTestResults {
+    public double getCoverage() {
+        return this.coverage;
     }
+
+    public void setCoverage(double coverage) {
+        this.coverage = coverage;
+    }
+
+    public String getCategory() {
+        return this.category;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
+    }
+
+    public int getTests() {
+        return this.tests;
+    }
+
+    public void setTests(int tests) {
+        this.tests = tests;
+    }
+
+    public int getPassed() {
+        return this.passed;
+    }
+
+    public void setPassed(int passed) {
+        this.passed = passed;
+    }
+
+    private double coverage;
+    private String category;
+    private int tests;
+    private int passed;
 }

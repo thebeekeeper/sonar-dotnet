@@ -51,7 +51,14 @@ public class TestSensor implements Sensor {
         String coverageSettings = project.getName() + ".runsettings";
         LOG.info("Using coverage settings: " + coverageSettings);
         args.setSettingsFile(coverageSettings);
-        File[] testAssemblies = FileUtil.findFiles(project.getFileSystem().getBasedir().getAbsolutePath() + "\\bin\\debug", "dll", "UnitTest");
+        File[] testAssemblies = null;
+        LOG.info("Looking for test assemblies in bin\\release");
+        testAssemblies = FileUtil.findFiles(project.getFileSystem().getBasedir().getAbsolutePath() + "\\bin\\release", "dll", "UnitTest");
+        if(testAssemblies.length == 0)
+        {
+            LOG.info("Found 0 test assemblies in bin\\release - looking in bin\\debug");
+            testAssemblies = FileUtil.findFiles(project.getFileSystem().getBasedir().getAbsolutePath() + "\\bin\\debug", "dll", "UnitTest");
+        }
         LOG.info("found " + testAssemblies.length + " test assemblies");
         String[] fileNames = new String[testAssemblies.length];
         int i = 0;
@@ -82,6 +89,8 @@ public class TestSensor implements Sensor {
             {
                 sensorContext.saveMeasure(CoreMetrics.TESTS, 0.0);
                 sensorContext.saveMeasure(CoreMetrics.TEST_FAILURES, 0.0);
+                sensorContext.saveMeasure(CoreMetrics.LINE_COVERAGE, 0.0);
+                sensorContext.saveMeasure(CoreMetrics.COVERAGE, 0.0);
             }
         }
 

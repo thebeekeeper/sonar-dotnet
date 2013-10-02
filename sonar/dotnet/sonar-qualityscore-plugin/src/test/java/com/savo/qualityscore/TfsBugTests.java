@@ -1,5 +1,5 @@
 /*
- * Sonar .NET Plugin :: VsTest
+ * Savo Quality Score Plugin
  * Copyright (C) 2010 Jose Chillan, Alexandre Victoor and SonarSource
  * dev@sonar.codehaus.org
  *
@@ -17,32 +17,22 @@
  * License along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
  */
-package com.savo.sonar.plugins.csharp.vstest;
+package com.savo.qualityscore;
 
-import com.savo.sonar.plugins.csharp.vstest.ui.IntegrationTestCoverageWidget;
-import org.sonar.api.Extension;
-import org.sonar.api.SonarPlugin;
-
-import java.util.ArrayList;
-import java.util.List;
+import com.savo.qualityscore.BugHistory;
+import org.junit.Assert;
+import org.junit.Test;
 
 /**
- * Created with IntelliJ IDEA.
  * User: ngamroth
- * Date: 5/30/13
- * Time: 9:20 AM
- * To change this template use File | Settings | File Templates.
+ * Date: 6/28/13
+ * Time: 3:25 PM
  */
-public class VsTestPlugin extends SonarPlugin {
-
-    public List<Class<? extends Extension>> getExtensions() {
-        List<Class<? extends Extension>> extensions = new ArrayList<Class<? extends Extension>>();
-
-        extensions.add(IntegrationTestCoverageWidget.class);
-        extensions.add(IntegrationTestMetrics.class);
-        extensions.add(TestSensor.class);
-        extensions.add(IntegrationTestSensor.class);
-
-        return extensions;
+public class TfsBugTests {
+    @Test
+    public void canGetBugs() {
+        BugHistory bh = new BugHistory();
+        int bugs = bh.getActiveBugCount();
+        Assert.assertEquals(11, bugs);
     }
 }

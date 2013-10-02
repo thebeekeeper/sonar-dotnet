@@ -1,0 +1,57 @@
+<%
+    service_tests = measure("service_test_count")
+    service_fail = measure("service_test_failures");
+    if service_tests.value == 0
+        service_pass_rate = 0
+    else
+        service_pass_rate = sprintf("%.1f", 100.0 * ((service_tests.value - service_fail.value) / service_tests.value))
+    end
+
+    controller_tests = measure("controller_test_count")
+    controller_fail = measure("controller_test_failures")
+    if controller_tests.value == 0
+        controller_pass_rate = 0
+    else
+        controller_pass_rate = sprintf("%.1f", 100.0 * ((controller_tests.value - controller_fail.value) / controller_tests.value))
+    end
+%>
+<div>
+    <table width="100%">
+        <tbody>
+        <tr>
+        <!--<h3>NPercept</h3>-->
+
+        <td valign="top" width="50%" nowrap>
+            <div class="dashbox">
+                <p class="title">Service Coverage</p>
+                <p>
+                    <span class="big"><%= format_measure('service_coverage') -%>%</span>
+                </p>
+                <p>
+                    <span class="big"><%= service_pass_rate -%>%</span> pass rate
+                <p>
+                    <%= format_measure("service_test_count") -%> tests
+                </p>
+                <p>
+                    <%= format_measure("service_test_failures") -%> failures
+                </p>
+            </div>
+        </td>
+        <td valign="top" width="50%" nowrap>
+                <h3>Controller Coverage</h3>
+                <p>
+                <span class="big"><%= format_measure('controller_coverage') -%>%</span>
+                </p>
+                <p>
+                    <span class="big"><%= controller_pass_rate -%>%</span> pass rate
+                <p>
+                    <%= format_measure("controller_test_count") -%> tests
+                </p>
+                <p>
+                    <%= format_measure("controller_test_failures") -%> failures
+                </p>
+        </td>
+        </tr>
+        </tbody>
+    </table>
+</div>

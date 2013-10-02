@@ -25,6 +25,8 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Created with IntelliJ IDEA.
@@ -36,6 +38,7 @@ import java.util.List;
 public class FileUtil {
     public static File[] findFiles(String path, String extension, String contains){
         File baseDir = new File(path);
+        LOG.info("Looking for files in " + path);
         if(!baseDir.isDirectory())
         {
             return new File[0];
@@ -45,11 +48,15 @@ public class FileUtil {
         List<File> tempList = new ArrayList<File>();
         for(File f : files)
         {
+            LOG.info("Found file " + f.getName());
             if(f.getName().contains(contains))
             {
+                LOG.info("Found match for " + contains);
                 tempList.add(f);
             }
         }
         return tempList.toArray(new File[tempList.size()]);
     }
+
+    private static final Logger LOG = LoggerFactory.getLogger(FileUtil.class);
 }

@@ -35,13 +35,18 @@
             <artifactId>vstest-runner</artifactId>
             <version>2.2-SNAPSHOT</version>
         </dependency>
+        <!--<dependency>
+            <groupId>org.codehaus.sonar-plugins.dotnet.tools</groupId>
+            <artifactId>stester-runner</artifactId>
+            <version>2.2-SNAPSHOT</version>
+        </dependency>-->
 
-    <!-- sonar open-source -->
-    <dependency>
-        <groupId>org.codehaus.sonar</groupId>
-        <artifactId>sonar-plugin-api</artifactId>
-        <scope>provided</scope>
-    </dependency>
+        <!-- sonar open-source -->
+        <dependency>
+            <groupId>org.codehaus.sonar</groupId>
+            <artifactId>sonar-plugin-api</artifactId>
+            <scope>provided</scope>
+        </dependency>
     </dependencies>
     
 </project>

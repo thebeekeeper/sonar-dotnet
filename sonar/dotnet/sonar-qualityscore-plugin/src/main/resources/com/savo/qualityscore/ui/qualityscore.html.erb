@@ -1,0 +1,19 @@
+<%
+    m = measure("quality_score")
+    if m
+        if m.value < 300
+            css_class = "widget color_ERROR title"
+            sass = ":("
+        else
+            css_class = "widget color_OK title"
+            sass = ":)"
+        end
+%>
+
+<div class="<%= css_class -%>" id="score_widget">
+    <span class="big">
+        <%= format_measure('quality_score') -%> <%= sass -%>
+    </span>
+</div>
+
+<% end %>
